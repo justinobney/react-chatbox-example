@@ -1,8 +1,14 @@
 import React from 'react';
 import Radium from 'radium';
 import moment from 'moment';
+import Autolinker  from 'autolinker';
 
 class Message extends React.Component {
+  _parseText(text){
+    return {
+      __html: Autolinker.link(text)
+    }
+  }
   render() {
     let {message, showBorder, isTimeGrouped} = this.props;
     let messageBorder = showBorder ? styles.borderedMessage : null;
@@ -15,7 +21,7 @@ class Message extends React.Component {
       <div style={[styles.base, messageBorder]}>
         <span style={[styles.timestamp, timestampStyle]}>{timestamp}</span>
         <span style={userStyle}>{message.user}</span>
-        <span>{message.text}</span>
+        <span dangerouslySetInnerHTML={this._parseText(message.text)} />
       </div>
     );
   }

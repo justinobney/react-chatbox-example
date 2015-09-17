@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/alicoding/react-webpack-babel#readme",
   "dependencies": {
+    "autolinker": "^0.18.1",
     "color": "^0.10.1",
     "es6-react-mixins": "^0.1.8",
     "firebase": "^2.2.9",
