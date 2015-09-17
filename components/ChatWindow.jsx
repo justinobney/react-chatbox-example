@@ -59,26 +59,27 @@ class ChatWindow extends React.Component {
       });
     });
   }
+  componentDidUpdate(){
+    let {chatWindow, chatHeader} = this.refs;
+
+    if (chatWindow && chatHeader) {
+      let {open} = this.state;
+      let heightStyle
+      let windowHeight = chatWindow.getDOMNode().offsetHeight;
+      let headerHeight = chatHeader.getDOMNode().offsetHeight;
+      let bottom = (-1 * (windowHeight - headerHeight)) + 'px';
+      heightStyle = !open ? bottom : 0;
+      chatWindow.getDOMNode().style.bottom = heightStyle;
+    }
+  }
   render() {
     let style = [
       styles.base,
       styles[this.props.kind]
     ];
 
-    let {chatWindow, chatHeader} = this.refs;
-    let {open} = this.state;
-    let heightStyle
-
-    if (chatWindow && chatHeader) {
-      let windowHeight = chatWindow.getDOMNode().offsetHeight;
-      let headerHeight = chatHeader.getDOMNode().offsetHeight;
-      let bottom = (-1 * (windowHeight - headerHeight)) + 'px';
-      heightStyle = !open ? {bottom} : null;
-      style.push(heightStyle);
-    }
-
     let headerStateStyle = Radium.getState(this.state, 'messageInput', ':focus') ? { background: '#333' } : null;
-    
+
     return (
       <form ref="chatWindow" style={style}
         onSubmit={::this._handleFormSubmit}>

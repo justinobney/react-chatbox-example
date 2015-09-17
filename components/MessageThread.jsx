@@ -29,7 +29,7 @@ class MessageThread extends React.Component {
 
     msg.userColor = this._getUserColor(msg.user);
     return (
-      <div>
+      <div key={msg.timestamp}>
         {dateSeperator}
         <Message message={msg}
           showBorder={isDifferentUser && !isDifferentDate}
