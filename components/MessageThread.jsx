@@ -2,14 +2,7 @@ import React from 'react';
 import Radium from 'radium';
 import moment from 'moment';
 import Please from 'pleasejs';
-
-let messages = [
-  {text: 'hi', date: '9-15-2015 : 8:07 AM', user: 'joe', isYou: true},
-  {text: 'hello', date: '9-15-2015 : 8:34 AM', user: 'sharon', isYou: false},
-  {text: 'sorry.. got busy', date: '9-16-2015 : 10:14 AM', user: 'joe', isYou: true},
-  {text: 'umm...', date: '9-16-2015 : 10:15 AM', user: 'joe', isYou: true},
-  {text: 'this is a really long message where i try to explain why I have been ignoring you', date: '9-16-2015 : 11:52 AM', user: 'sharon', isYou: false},
-];
+import Message from './Message';
 
 let colorMap = {};
 
@@ -19,31 +12,28 @@ class MessageThread extends React.Component {
     if (color) {
       return color
     } else {
-      colorMap[user] = Please.make_color();
+      colorMap[user] = Please.make_color()[0];
       return colorMap[user];
     }
   }
   _renderMessage(msg, idx, col){
-    let prevMsg = col[Math.max(idx - 1, 0)];
-    let msgDate = moment(msg.date);
-    let prevMsgDate = moment(prevMsg.date);
-    let userStyle = [styles.user, {color: this._getUserColor(msg.user)}];
-    let timeAgo = msgDate.format('h:mm a'); 
-    
+    let lastIdx = idx - 1;
+    let prevMsg = col[Math.max(lastIdx, 0)];
+    let msgDate = moment(msg.timestamp);
+    let prevMsgDate = moment(prevMsg.timestamp);
+
     let isDifferentDate = prevMsgDate.format('YYYYMMDD') !== msgDate.format('YYYYMMDD');
     let dateSeperator = isDifferentDate ? this._renderDayDivider(prevMsgDate) : null;
-
     let isDifferentUser = prevMsg.user !== msg.user;
-    let messageBorder = isDifferentUser && !isDifferentDate ? styles.borderedMessage : null;
+    let isMessageTimeGrouped = lastIdx > -1 && msgDate.diff(prevMsgDate, 'minutes') < 3;
 
+    msg.userColor = this._getUserColor(msg.user);
     return (
       <div>
         {dateSeperator}
-        <div style={[styles.message, messageBorder]}>
-          <span style={styles.timestamp}>{timeAgo}</span>
-          <span style={userStyle}>{msg.user}</span>
-          <span>{msg.text}</span>
-        </div>
+        <Message message={msg}
+          showBorder={isDifferentUser && !isDifferentDate}
+          isTimeGrouped={isMessageTimeGrouped} />
       </div>
     );
   }
@@ -57,9 +47,20 @@ class MessageThread extends React.Component {
       </div>
     );
   }
+  componentWillUpdate() {
+    let node = this.refs.body.getDOMNode();
+    this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight;
+  }
+  componentDidUpdate() {
+    if (this.shouldScrollBottom) {
+      let node = this.refs.body.getDOMNode();
+      node.scrollTop = node.scrollHeight
+    }
+  }
   render() {
+    let {messages} = this.props.conversation;
     return (
-      <div style={styles.base}>
+      <div ref="body" style={styles.base}>
         {messages.map(::this._renderMessage)}
       </div>
     );
@@ -68,19 +69,9 @@ class MessageThread extends React.Component {
 
 let styles = {
   base: {
-    height: '350px'
-  },
-  message: {
-    position: 'relative',
-    padding: '2px 5px 2px 80px'
-  },
-  borderedMessage: {
-    borderTop: 'solid 1px #DDD',
-  },
-  user: {
-    padding: '0 10px 0 0',
-    fontWeight: '600',
-    fontFamily: 'Consolas'
+    height: '350px',
+    overflowY: 'scroll',
+    overflowX: 'hidden'
   },
   dayDivider: {
     margin: '0rem -18px 0rem -1.5rem',
@@ -101,14 +92,6 @@ let styles = {
     padding: '0 1rem',
     position: 'relative',
     backgroundColor: '#fff'
-  },
-  timestamp: {
-    fontWeight: '600',
-    fontFamily: 'Arial',
-    position: 'absolute',
-    left: '5px',
-    display: 'inline-block',
-    color: '#888'
   }
 };
 

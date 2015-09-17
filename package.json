@@ -5,7 +5,7 @@
   "main": "''",
   "scripts": {
     "build": "webpack --progress --profile --colors",
-    "dev": "webpack-dev-server --progress --profile --colors --hot"
+    "dev": "webpack-dev-server --progress --profile --colors --hot --port 9000"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
   "dependencies": {
     "color": "^0.10.1",
     "es6-react-mixins": "^0.1.8",
+    "firebase": "^2.2.9",
     "json-loader": "^0.5.2",
     "moment": "^2.10.6",
     "pleasejs": "^0.4.2",
