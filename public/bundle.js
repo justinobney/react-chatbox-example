@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "0c8c8555eb16f06f1a53"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "162a38da984fbdcc09b5"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -30850,24 +30850,27 @@
 	      });
 	    }
 	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var style = [styles.base, styles[this.props.kind]];
-	
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
 	      var _refs = this.refs;
 	      var chatWindow = _refs.chatWindow;
 	      var chatHeader = _refs.chatHeader;
-	      var open = this.state.open;
-	
-	      var heightStyle = undefined;
 	
 	      if (chatWindow && chatHeader) {
+	        var _open = this.state.open;
+	
+	        var heightStyle = undefined;
 	        var windowHeight = chatWindow.getDOMNode().offsetHeight;
 	        var headerHeight = chatHeader.getDOMNode().offsetHeight;
 	        var bottom = -1 * (windowHeight - headerHeight) + 'px';
-	        heightStyle = !open ? { bottom: bottom } : null;
-	        style.push(heightStyle);
+	        heightStyle = !_open ? bottom : 0;
+	        chatWindow.getDOMNode().style.bottom = heightStyle;
 	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var style = [styles.base, styles[this.props.kind]];
 	
 	      var headerStateStyle = _radium2['default'].getState(this.state, 'messageInput', ':focus') ? { background: '#333' } : null;
 	
@@ -46742,7 +46745,7 @@
 	      msg.userColor = this._getUserColor(msg.user);
 	      return _react2['default'].createElement(
 	        'div',
-	        null,
+	        { key: msg.timestamp },
 	        dateSeperator,
 	        _react2['default'].createElement(_Message2['default'], { message: msg,
 	          showBorder: isDifferentUser && !isDifferentDate,

@@ -78,7 +78,7 @@ class ChatWindow extends React.Component {
       styles[this.props.kind]
     ];
 
-    let headerStateStyle = Radium.getState(this.state, 'messageInput', ':focus') ? { background: '#333' } : null;
+    let headerStateStyle = Radium.getState(this.state, 'messageInput', ':focus') ? { background: '#488A32' } : null;
 
     return (
       <form ref="chatWindow" style={style}

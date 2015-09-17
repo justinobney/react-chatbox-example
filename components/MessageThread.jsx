@@ -82,7 +82,7 @@ let styles = {
   },
   dayDividerHr: {
     position: 'absolute',
-    borderTop: '1px solid #DDD',
+    borderTop: '1px solid #F88',
     top: '1.1rem',
     right: '18px',
     left: '1.5rem',
