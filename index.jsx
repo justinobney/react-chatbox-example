@@ -4,8 +4,11 @@ import ChatWindow from './components/ChatWindow';
 
 export class App extends React.Component {
   componentWillMount() {
-    this.username = '';
-    while (!(this.username = prompt('Enter a username'))){}
+    let isLocal = document.location.hostname == 'localhost';
+    this.username = isLocal ? 'justin' : '';
+    if (!this.username) {
+      while (!(this.username = prompt('Enter a username'))){}
+    }
   }
 	render() {
 		return (
