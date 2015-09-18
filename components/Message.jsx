@@ -2,11 +2,14 @@ import React from 'react';
 import Radium from 'radium';
 import moment from 'moment';
 import Autolinker  from 'autolinker';
+import emojione from 'emojione';
 
 class Message extends React.Component {
   _parseText(text){
+    let linkedText = Autolinker.link(text);
+    let emojiText = emojione.shortnameToImage(linkedText);
     return {
-      __html: Autolinker.link(text)
+      __html: emojiText
     }
   }
   render() {
