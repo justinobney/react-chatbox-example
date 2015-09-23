@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react/addons';
 import Radium from 'radium';
 import moment from 'moment';
 import Autolinker  from 'autolinker';
@@ -8,9 +8,11 @@ class Message extends React.Component {
   _parseText(text){
     let linkedText = Autolinker.link(text);
     let emojiText = emojione.shortnameToImage(linkedText);
-    return {
-      __html: emojiText
-    }
+    return { __html: emojiText };
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    let msg = this.props.message || {};
+    return (nextProps.message || {}).timestamp !== msg.timestamp
   }
   render() {
     let {message, showBorder, isTimeGrouped} = this.props;
@@ -18,7 +20,9 @@ class Message extends React.Component {
     let timestampStyle = isTimeGrouped ? styles.timestampMuted : null;
     let userStyle = [styles.user, {color: message.userColor}];
     let msgDate = moment(message.timestamp);
-    let timestamp = msgDate.format('h:mm a'); 
+    let timestamp = msgDate.format('h:mm a');
+
+    // console.log('Message render()');
 
     return (
       <div style={[styles.base, messageBorder]}>
@@ -28,6 +32,17 @@ class Message extends React.Component {
       </div>
     );
   }
+}
+
+Message.propTypes = {
+  message: React.PropTypes.shape({
+    userColor: React.PropTypes.string.isRequired,
+    timestamp: React.PropTypes.date,
+    user: React.PropTypes.string,
+    text : React.PropTypes.string,
+  }).isRequired,
+  showBorder: React.PropTypes.bool.isRequired,
+  isTimeGrouped: React.PropTypes.bool.isRequired
 }
 
 let styles = {

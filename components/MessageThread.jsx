@@ -28,6 +28,7 @@ class MessageThread extends React.Component {
     let isMessageTimeGrouped = lastIdx > -1 && msgDate.diff(prevMsgDate, 'minutes') < 3;
 
     msg.userColor = this._getUserColor(msg.user);
+    
     return (
       <div key={msg.timestamp}>
         {dateSeperator}
@@ -58,13 +59,17 @@ class MessageThread extends React.Component {
     }
   }
   render() {
-    let {messages} = this.props.conversation;
+    let {messages} = this.props;
     return (
       <div ref="body" style={styles.base}>
         {messages.map(::this._renderMessage)}
       </div>
     );
   }
+}
+
+MessageThread.propTypes = {
+  messages: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
 }
 
 let styles = {

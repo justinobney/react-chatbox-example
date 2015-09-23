@@ -1,8 +1,8 @@
 import React from 'react';
 import RedBox from 'redbox-react';
-import ChatWindow from './components/ChatWindow';
+import ChatWindowContainer from './components/ChatWindowContainer';
 
-export class App extends React.Component {
+class App extends React.Component {
   componentWillMount() {
     let isLocal = document.location.hostname == 'localhost';
     this.username = isLocal ? 'justin' : '';
@@ -10,11 +10,9 @@ export class App extends React.Component {
       while (!(this.username = prompt('Enter a username'))){}
     }
   }
-	render() {
-		return (
-			<ChatWindow username={this.username}/>
-		);
-	}
+  render() {
+    return <ChatWindowContainer username={this.username}/>;
+  }
 }
 
 const root = document.querySelector("#myApp");
