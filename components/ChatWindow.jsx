@@ -4,6 +4,11 @@ import color from 'color';
 import MessageThread from './MessageThread';
 
 class ChatWindow extends React.Component {
+  static propTypes = {
+    username: React.PropTypes.string.isRequired,
+    conversation: React.PropTypes.object.isRequired,
+    onNewMessage: React.PropTypes.func
+  }
   _handleFormSubmit(e){
     e.preventDefault();
 
@@ -28,12 +33,6 @@ class ChatWindow extends React.Component {
       </form>
     );
   }
-}
-
-ChatWindow.propTypes = {
-  username: React.PropTypes.string.isRequired,
-  conversation: React.PropTypes.object.isRequired,
-  onNewMessage: React.PropTypes.func
 }
 
 let styles = {

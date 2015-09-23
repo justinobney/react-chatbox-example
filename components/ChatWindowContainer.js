@@ -6,12 +6,7 @@ import ChatWindow from './ChatWindow';
 let fbRef = new Firebase('https://slackfire.firebaseio.com/');
 
 export default class ChatWindowContainer extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      conversation: { messages: [] }
-    };
-  }
+  state = { conversation: { messages: [] } }
   _handleNewMessage(text){
     let timestamp = Firebase.ServerValue.TIMESTAMP;
     let user = { user: this.props.username };

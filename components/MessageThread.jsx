@@ -7,6 +7,9 @@ import Message from './Message';
 let colorMap = {};
 
 class MessageThread extends React.Component {
+  static propTypes = {
+    messages: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
+  }
   _getUserColor(user){
     let color = colorMap[user];
     if (color) {
@@ -28,7 +31,7 @@ class MessageThread extends React.Component {
     let isMessageTimeGrouped = lastIdx > -1 && msgDate.diff(prevMsgDate, 'minutes') < 3;
 
     msg.userColor = this._getUserColor(msg.user);
-    
+
     return (
       <div key={msg.timestamp}>
         {dateSeperator}
@@ -66,10 +69,6 @@ class MessageThread extends React.Component {
       </div>
     );
   }
-}
-
-MessageThread.propTypes = {
-  messages: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
 }
 
 let styles = {

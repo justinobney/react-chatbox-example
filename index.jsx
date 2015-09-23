@@ -11,7 +11,7 @@ class App extends React.Component {
     }
   }
   render() {
-    return <ChatWindowContainer username={this.username}/>;
+    return <ChatWindowContainer username={this.username} />;
   }
 }
 

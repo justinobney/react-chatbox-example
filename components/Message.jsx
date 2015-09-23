@@ -5,6 +5,16 @@ import Autolinker  from 'autolinker';
 import emojione from 'emojione';
 
 class Message extends React.Component {
+  static propTypes = {
+    message: React.PropTypes.shape({
+      userColor: React.PropTypes.string.isRequired,
+      timestamp: React.PropTypes.date,
+      user: React.PropTypes.string,
+      text : React.PropTypes.string,
+    }).isRequired,
+    showBorder: React.PropTypes.bool.isRequired,
+    isTimeGrouped: React.PropTypes.bool.isRequired
+  }
   _parseText(text){
     let linkedText = Autolinker.link(text);
     let emojiText = emojione.shortnameToImage(linkedText);
@@ -32,17 +42,6 @@ class Message extends React.Component {
       </div>
     );
   }
-}
-
-Message.propTypes = {
-  message: React.PropTypes.shape({
-    userColor: React.PropTypes.string.isRequired,
-    timestamp: React.PropTypes.date,
-    user: React.PropTypes.string,
-    text : React.PropTypes.string,
-  }).isRequired,
-  showBorder: React.PropTypes.bool.isRequired,
-  isTimeGrouped: React.PropTypes.bool.isRequired
 }
 
 let styles = {
