@@ -17,11 +17,11 @@ export default function getCapture(text, right, identifiers = defaultIdentifiers
   }
 
   let matchesIdentifier = regexTests.some((identifier)=>identifier.test(text.substring(left - 1, left + 1)));
-  let capture = text.substring(left, right);
+  let value = text.substring(left, right);
   let isValidPoint = right === text.length || alphaEnd.test(text.substring(right-1, right+1));
   
-  if(matchesIdentifier && isValidPoint){
-    return {left, right, capture};
+  if(matchesIdentifier && isValidPoint && !!value.trim()){
+    return {left, right, value};
   }
 
   return null;
