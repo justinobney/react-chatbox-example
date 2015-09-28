@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>React Webpack Babel App</title>
-  <style>
+    <style>
       .emojione {
       /* Emoji Sizing */
       font-size: inherit;
@@ -44,10 +44,26 @@
 
     .autocomplete-menu {
       position: absolute;
-      border: solid 1px red;
+      border: solid 1px #ccc;
       bottom: 0;
-      width: 200px;
       background: #fff;
+      border-radius: 4px;
+      box-shadow: 0 0 6px 0px rgba(0,0,0,0.3);
+    }
+
+    .suggestion-item {
+        padding: 5px;
+        border-bottom: solid 1px #ccc;
+        white-space: nowrap;
+    }
+
+    .suggestion-item.selected {
+        background-color:#F0F8FF;
+    }
+
+    .suggestion-item:last-child {
+        padding: 5px;
+        border-bottom: none;
     }
   </style>
 </head>
